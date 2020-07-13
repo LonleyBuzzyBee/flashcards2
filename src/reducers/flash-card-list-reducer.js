@@ -1,5 +1,5 @@
 export default (state = {}, action) => {
-  const { names, location, issue, id } = action;
+  const { title, category, content, id } = action;
   switch (action.type) {
   case 'ADD_FLASH_CARD':
     return Object.assign({}, state, {

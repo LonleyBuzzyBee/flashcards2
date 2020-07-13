@@ -1,38 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {v4} from 'uuid';
+import { useFirestore } from 'react-redux-firebase'
+import ReusableForm from './ReusableForm';
 
-function NewCardForm(props){
-  function handleNewCardFormSubmission(event){
+function NewCardForm(props) {
+  const firestore = useFirestore();
+  function addCardToFirestore(event){
     event.preventDefault();
-    props.onNewCardCreation({
-      title: event.target.title.value,
-      category: event.target.category.value,
-      content: event.target.content.value,
-      id: v4()
-    });
+    props.onNewCardCreation();
+    return firestore.collection('cards').add(
+      {
+        title: event.target.title.value,
+        category: event.target.category.value,
+        content: event.target.content.value,
+        timeOpen: firestore.FielValue.serverTimestamp()
+        
+      }
+    );
   }
   return(
     <React.Fragment>
-      <form onSubmit = {handleNewCardFormSubmission}>
-        <input
-          type = 'text'
-          name = 'title'
-          placeholder = 'card Title'
-        />
-        <input
-          type = 'text'
-          name = 'category'
-          placeholder = 'Category'
-        />
-        <textarea
-          type = 'text'
-          name = 'content'
-          placeholder = 'Enter info here'
-        />
-        <button type='submit'>Create card!</button>
-      </form>
-    </React.Fragment>
+      <ReusableForm
+        formSubmissionHandler={addCardToFirestore}
+      buttonText="Add Flash Card"/>
+   </React.Fragment>
   );
 }
 
