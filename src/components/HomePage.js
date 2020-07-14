@@ -62,6 +62,7 @@ class HomePage extends React.Component {
     const action = a.toggleForm();
  
     dispatch(action);
+
     const action2 = {
       type: 'FLASH_CARD_LIST'
     }
@@ -96,10 +97,7 @@ class HomePage extends React.Component {
 
     } else if (this.props.formVisibleOnPage === "home-page") {
       currentlyVisibleState =
-      <React.Fragment > 
-        <h1>this is the home page</h1>
-    
-      </React.Fragment>
+      <Home/>
       buttonText = "See All Flash Cards"
       buttonClick = this.handleClick;
     }
@@ -107,7 +105,7 @@ class HomePage extends React.Component {
       currentlyVisibleState = <NewCardForm onNewCardCreation={this.handleAddingNewCardToList} />;
       buttonText = "Return to home page";
       buttonClick = this.handleClick;
-      button2 = <button onClick={this.flashCardListClick}>Return to list</button>
+      button2 = <button onClick={this.homeClick}>Return to list</button>;
 
     } else if (this.props.formVisibleOnPage === "flash-card-list") {
       currentlyVisibleState = <CardList
@@ -116,7 +114,7 @@ class HomePage extends React.Component {
      
       buttonText = "Add Post";
       buttonClick = this.handleClickAddCard;
-      button2 = <button onClick={this.homePageClick}>Return Home</button>
+      button2 = <button onClick={this.homeClick}>Return Home</button>;
     }
     return (
       <React.Fragment>

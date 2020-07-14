@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Card from "./FlashCard";
-import { useSelector } from 'react-redux'
-import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase'
+import { useSelector } from 'react-redux';
+import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 
 function CardList(props) {
   useFirestoreConnect([
-    { collection: 'cards' }
+    {
+      collection: 'cards' }
   ]);
 
   const cards = useSelector(state => state.firestore.ordered.cards);
@@ -15,9 +16,9 @@ function CardList(props) {
     
     return (
       <React.Fragment>
-        {Object.values(props.cardList).map((card) => {
+        {cards.map((card) => {
           return <Card
-            whencardClicked={props.oncardSelection}
+            whenCardClicked={props.onCardSelection}
             title={card.title}
             category={card.category}
             content={card.content}
@@ -37,7 +38,7 @@ function CardList(props) {
 
 CardList.propTypes = {
   // cardList: PropTypes.object,
-  oncardSelection: PropTypes.func
+  onCardSelection: PropTypes.func
 }
 
 export default CardList;

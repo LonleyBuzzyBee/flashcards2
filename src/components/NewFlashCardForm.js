@@ -12,9 +12,7 @@ function NewCardForm(props) {
       {
         title: event.target.title.value,
         category: event.target.category.value,
-        content: event.target.content.value,
-        timeOpen: firestore.FielValue.serverTimestamp()
-        
+        content: event.target.content.value
       }
     );
   }
