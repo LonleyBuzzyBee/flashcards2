@@ -1,12 +1,12 @@
 import React from 'react';
 import NewCardForm from './NewFlashCardForm';
 import CardList from './FlashCardList';
+import Home from './Home';
 import CardDetail from './FlashCardDetail';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as a from './../actions';
 import { withFirestore } from 'react-redux-firebase'
-
-
 
 
 class HomePage extends React.Component {
@@ -17,10 +17,10 @@ class HomePage extends React.Component {
     }
   }
 
-  flashCardListClick = () => {
+  homeClick = () => {
     const { dispatch } = this.props;
     const action = {
-      type: 'FLASH_CARD_LIST'
+      type: 'HOME_PAGE'
     }
     dispatch(action);
   }
@@ -41,13 +41,14 @@ class HomePage extends React.Component {
       });
       const { dispatch } = this.props;
       const action = {
-        type: 'POST_LIST'
+        type: 'FLASH_CARD_LIST'
       }
-      dispatch(action)
-    } else if (this.props.formVisibleOnPage === 'see-form' || this.props.formVisibleOnPage === 'landing-page') {
+      dispatch(action);
+      
+    } else if (this.props.formVisibleOnPage === 'see-form' || this.props.formVisibleOnPage === 'home-page') {
       const { dispatch } = this.props;
       const action = {
-        type: 'POST_LIST'
+        type: 'FLASH_CARD_LIST'
       }
       dispatch(action);
     }
@@ -56,18 +57,10 @@ class HomePage extends React.Component {
 
 
 
-  handleAddingNewCardToList = (newCard) => {
+  handleAddingNewCardToList = () => {
     const { dispatch } = this.props;
-    const { id, title, category, content,} = newCard;
-    const action = {
-      type: 'ADD_FLASH_CARD',
-      id: id,
-      title: title,
-      category: category,
-      content: content,
-
-    }
-    console.log(newCard);
+    const action = a.toggleForm();
+ 
     dispatch(action);
     const action2 = {
       type: 'FLASH_CARD_LIST'
@@ -76,8 +69,15 @@ class HomePage extends React.Component {
   }
 
   handleChangingSelectedCard = (id) => {
-    const selectedCard = (this.props.masterCardList).filter(card => card.id === id)[0];
-    this.setState({ selectedCard: selectedCard });
+    this.props.firestore.get({ collection: 'cards', doc: id }).then((card) => {
+      const firestoreCard = {
+        title: card.get("title"),
+        category: card.get("category"),
+        content: card.get("content"),
+        id: card.id
+      }
+      this.setState({ selectedCard: firestoreCard });
+    });
   }
 
   render() {
@@ -94,8 +94,12 @@ class HomePage extends React.Component {
       buttonText = "Return to flash Card List";
       buttonClick = this.handleClick;
 
-    } else if (this.props.formVisibleOnPage === "flash-card-list") {
-      currentlyVisibleState = <CardList />
+    } else if (this.props.formVisibleOnPage === "home-page") {
+      currentlyVisibleState =
+      <React.Fragment > 
+        <h1>this is the home page</h1>
+    
+      </React.Fragment>
       buttonText = "See All Flash Cards"
       buttonClick = this.handleClick;
     }
@@ -107,12 +111,12 @@ class HomePage extends React.Component {
 
     } else if (this.props.formVisibleOnPage === "flash-card-list") {
       currentlyVisibleState = <CardList
-        cardList={this.props.masterCardList}
+        cardList={this.state.masterCardList}
         onCardSelection={this.handleChangingSelectedCard} />;
      
       buttonText = "Add Post";
       buttonClick = this.handleClickAddCard;
-      button2 = <button onClick={this.landingPageClick}>Return Home</button>
+      button2 = <button onClick={this.homePageClick}>Return Home</button>
     }
     return (
       <React.Fragment>
@@ -137,4 +141,4 @@ const mapStateToProps = state => {
 
 HomePage = connect(mapStateToProps)(HomePage);
 
-export default HomePage;
+export default withFirestore(HomePage);
