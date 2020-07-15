@@ -102,6 +102,11 @@ class HomePage extends React.Component {
     }
   }
 
+  // handleDeletingCard = (id) => {
+  // this.props.firestore.delete({collection: 'cards', doc: id});
+  // this.setState({selectedCard: null});
+  // }
+
 
   render() {
     let currentlyVisibleState = null;
@@ -122,7 +127,8 @@ class HomePage extends React.Component {
       currentlyVisibleState =
         <CardDetail
           onEditClick={this.handleEditingCardInList}
-          card={this.state.selectedCard}
+        card={this.state.selectedCard}
+        onDeleteCard={this.handleDeletingCard}
            />
       buttonText = "Return to flash Card List";
       buttonClick = this.handleClick;
