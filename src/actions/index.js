@@ -14,6 +14,10 @@ export const deleteCard = id => ({
   type: 'DELETE_FLASH_CARD',
   id
 });
+export const editCard = id => ({
+  type: 'EDIT_FLASH_CARD',
+  id
+});
 export const toggleForm = () => ({
   type: 'TOGGLE_FORM'
 });

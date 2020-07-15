@@ -13,12 +13,13 @@ function EditFlashCard(props){
     event.preventDefault();
     props.onEditCard();
     const propertiesToUpdate = {
-      names: event.target.title.value,
-      location: event.target.category.value,
-      issue: event.target.content.value
+      title: event.target.title.value,
+      category: event.target.category.value,
+      content: event.target.content.value
     }
     return firestore.update({collection: 'cards', doc: props.card.id }, propertiesToUpdate)
   }
+
   return (
     <React.Fragment>
       <ReusableForm
@@ -28,7 +29,6 @@ function EditFlashCard(props){
   )
 
 }
-
   EditFlashCard.propTypes = {
    onEditCard: PropTypes.func
  } 

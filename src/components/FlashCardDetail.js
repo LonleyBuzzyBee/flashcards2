@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 function CardDetail(props){
   const { card, onEditClick } = props;
 
-
   return (
     <React.Fragment>
        <h3>{card.title} - {card.category}</h3>

@@ -37,7 +37,15 @@ class HomePage extends React.Component {
 
 
   handleClick = () => {
-    if (this.state.selectedCard != null) {
+    if (this.state.editing !== false) {
+      this.setState({ editing: false });
+      const { dispatch } = this.props;
+      const action = {
+        type: 'EDIT_FLASH_CARD'
+      }
+      dispatch(action);
+    }
+    else if (this.state.selectedCard != null) {
       this.setState({
         selectedCard: null
       });
@@ -84,11 +92,15 @@ class HomePage extends React.Component {
   }
 
   handleEditingCardInList = () => {
-  this.setState({
-    editing: false,
-    selectedCard: null
-  });
-}
+    if (this.state.editing) {
+      this.setState({ editing: false })
+    }
+    else {
+      this.setState({
+        editing: true
+      });
+    }
+  }
 
 
   render() {
@@ -100,7 +112,6 @@ class HomePage extends React.Component {
    
 
     if (this.state.editing) {
-   
     currentlyVisibleState= <EditFlashCard
           card={this.state.selectedCard}
           onEditCard={this.handleEditingCardInList}/>
@@ -110,6 +121,7 @@ class HomePage extends React.Component {
     else if (this.state.selectedCard != null) {
       currentlyVisibleState =
         <CardDetail
+          onEditClick={this.handleEditingCardInList}
           card={this.state.selectedCard}
            />
       buttonText = "Return to flash Card List";
