@@ -1,11 +1,11 @@
 import formVisibleReducer from './form-visible-reducer';
 import { combineReducers } from 'redux';
-// import cardListReducer from './flash-card-list-reducer';
+import selectedCardReducer from './selected-card-reducer';
 import { firestoreReducer } from 'redux-firestore';
 
 const rootReducer = combineReducers({
   formVisibleOnPage: formVisibleReducer,
-  // masterCardList: cardListReducer,
+  selectedCard: selectedCardReducer,
   firestore: firestoreReducer
 });
 

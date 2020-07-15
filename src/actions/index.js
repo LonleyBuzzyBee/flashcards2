@@ -10,6 +10,12 @@
 //   }
 // }
 
+
+export const setSelectedCard = id => ({
+  type: 'SELECTED_CARD',
+  id
+});
+
 export const deleteCard = id => ({
   type: 'DELETE_FLASH_CARD',
   id

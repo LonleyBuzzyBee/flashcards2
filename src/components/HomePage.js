@@ -13,10 +13,10 @@ import { withFirestore } from 'react-redux-firebase';
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedCard: null,
-      editing: false
-    }
+    // this.state = {
+    //   selectedCard: a.selectedCard,
+    //   editing: false
+    // }
   }
 
   homeClick = () => {
@@ -148,16 +148,15 @@ class HomePage extends React.Component {
       button2 =  "Return to list";
       button2Text =  this.homeClick;
       
-    } else if (this.props.formVisibleOnPage === "flash-card-list") {
-      currentlyVisibleState = <CardList
-      cardList={this.state.masterCardList}
-      onCardSelection={this.handleChangingSelectedCard} />;
+    } 
+    else 
+    {
+      currentlyVisibleState = <CardList />;
       
       buttonText = "Add Post";
       buttonClick = this.handleClickAddCard;
       button2 =  "Return to list";
       button2Text =  this.homeClick;
-  
     }
     return (
       <React.Fragment>
@@ -169,13 +168,13 @@ class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
-  masterCardList: PropTypes.object
+  selectedCard: PropTypes.string,
+  formVisibleOnPage: PropTypes.bool
 };
 
 const mapStateToProps = state => {
-
   return {
-    masterFlashCardList: state.masterCardList,
+    selectedCard: state.selectedCard,
     formVisibleOnPage: state.formVisibleOnPage
   }
 }
