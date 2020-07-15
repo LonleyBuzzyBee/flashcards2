@@ -1,14 +1,14 @@
-export const addCard = (card) => {
-  const { title, category, content, id } = card;
-  return {
-    type: 'ADD_FLASH_CARD',
-    title: title,
-    category: category,
-    content: content,
-    id: id
+// export const addCard = (card) => {
+//   const { title, category, content, id } = card;
+//   return {
+//     type: 'ADD_CARD',
+//     title: title,
+//     category: category,
+//     content: content,
+//     id: id
     
-  }
-}
+//   }
+// }
 
 export const deleteCard = id => ({
   type: 'DELETE_FLASH_CARD',

@@ -3,17 +3,19 @@ import NewCardForm from './NewFlashCardForm';
 import CardList from './FlashCardList';
 import Home from './Home';
 import CardDetail from './FlashCardDetail';
+import EditFlashCard from './EditFlashCard';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as a from './../actions';
-import { withFirestore } from 'react-redux-firebase'
+import { withFirestore } from 'react-redux-firebase';
 
 
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCard: null
+      selectedCard: null,
+      editing: false
     }
   }
 
@@ -28,7 +30,7 @@ class HomePage extends React.Component {
   handleClickAddCard = () => {
     const { dispatch } = this.props;
     const action = {
-      type: 'SEE_FORM'
+      type: 'TOGGLE_FORM'
     }
     dispatch(action);
   }
@@ -81,16 +83,34 @@ class HomePage extends React.Component {
     });
   }
 
+  handleEditingCardInList = () => {
+  this.setState({
+    editing: false,
+    selectedCard: null
+  });
+}
+
+
   render() {
     let currentlyVisibleState = null;
     let buttonText = null;
     let buttonClick = null;
     let button2 = null;
+    let button2Text = null;
    
-    if (this.state.selectedPost != null) {
+
+    if (this.state.editing) {
+   
+    currentlyVisibleState= <EditFlashCard
+          card={this.state.selectedCard}
+          onEditCard={this.handleEditingCardInList}/>
+          buttonClick = this.handleClick;
+          buttonText = "back to flash card list";
+    }
+    else if (this.state.selectedCard != null) {
       currentlyVisibleState =
         <CardDetail
-          post={this.state.selectedCard}
+          card={this.state.selectedCard}
            />
       buttonText = "Return to flash Card List";
       buttonClick = this.handleClick;
@@ -105,16 +125,19 @@ class HomePage extends React.Component {
       currentlyVisibleState = <NewCardForm onNewCardCreation={this.handleAddingNewCardToList} />;
       buttonText = "Return to home page";
       buttonClick = this.handleClick;
-      button2 = <button onClick={this.homeClick}>Return to list</button>;
-
+      button2 =  "Return to list";
+      button2Text =  this.homeClick;
+      
     } else if (this.props.formVisibleOnPage === "flash-card-list") {
       currentlyVisibleState = <CardList
-        cardList={this.state.masterCardList}
-        onCardSelection={this.handleChangingSelectedCard} />;
-     
+      cardList={this.state.masterCardList}
+      onCardSelection={this.handleChangingSelectedCard} />;
+      
       buttonText = "Add Post";
       buttonClick = this.handleClickAddCard;
-      button2 = <button onClick={this.homeClick}>Return Home</button>;
+      button2 =  "Return to list";
+      button2Text =  this.homeClick;
+  
     }
     return (
       <React.Fragment>

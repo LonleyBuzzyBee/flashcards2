@@ -7,13 +7,14 @@ import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 function CardList(props) {
   useFirestoreConnect([
     {
-      collection: 'cards' }
+      collection: 'cards'
+    }
   ]);
 
   const cards = useSelector(state => state.firestore.ordered.cards);
   
   if (isLoaded(cards)) {
-    
+    console.log(cards);
     return (
       <React.Fragment>
         {cards.map((card) => {
@@ -37,7 +38,6 @@ function CardList(props) {
 }
 
 CardList.propTypes = {
-  // cardList: PropTypes.object,
   onCardSelection: PropTypes.func
 }
 
