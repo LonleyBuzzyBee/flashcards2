@@ -64,7 +64,9 @@ class HomePage extends React.Component {
     }
   }
 
-
+  handleDeletingCard = () => {
+    this.setState({ selectedCard: null });
+  }
 
 
   handleAddingNewCardToList = () => {
@@ -123,7 +125,7 @@ class HomePage extends React.Component {
           buttonClick = this.handleClick;
           buttonText = "back to flash card list";
     }
-    else if (this.state.selectedCard != null) {
+    else if (this.state.selectedCard != null) { 
       currentlyVisibleState =
         <CardDetail
           onEditClick={this.handleEditingCardInList}
