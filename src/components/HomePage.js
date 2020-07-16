@@ -13,10 +13,10 @@ import { withFirestore } from 'react-redux-firebase';
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   selectedCard: a.selectedCard,
-    //   editing: false
-    // }
+    this.state = {
+      // selectedCard: a.selectedCard,
+      editing: false
+    }
   }
 
   homeClick = () => {
@@ -29,10 +29,7 @@ class HomePage extends React.Component {
 
   handleClickAddCard = () => {
     const { dispatch } = this.props;
-    const action = {
-      type: 'TOGGLE_FORM'
-    }
-    dispatch(action);
+    dispatch(a.toggleForm());
   }
 
 
@@ -64,17 +61,9 @@ class HomePage extends React.Component {
     }
   }
 
-  handleDeletingCard = () => {
-    this.setState({ selectedCard: null });
-  }
-
-
   handleAddingNewCardToList = () => {
-    const { dispatch } = this.props;
-    const action = a.toggleForm();
- 
-    dispatch(action);
-
+    const { dispatch } = this.props; 
+    dispatch(a.toggleForm());
     const action2 = {
       type: 'FLASH_CARD_LIST'
     }
@@ -104,11 +93,6 @@ class HomePage extends React.Component {
     }
   }
 
-  // handleDeletingCard = (id) => {
-  // this.props.firestore.delete({collection: 'cards', doc: id});
-  // this.setState({selectedCard: null});
-  // }
-
 
   render() {
     let currentlyVisibleState = null;
@@ -125,23 +109,19 @@ class HomePage extends React.Component {
           buttonClick = this.handleClick;
           buttonText = "back to flash card list";
     }
-    else if (this.state.selectedCard != null) { 
+    else if (this.props.selectedCard != null) { 
       currentlyVisibleState =
-        <CardDetail
-          onEditClick={this.handleEditingCardInList}
-        card={this.state.selectedCard}
-        onDeleteCard={this.handleDeletingCard}
-           />
+        <CardDetail/>
       buttonText = "Return to flash Card List";
       buttonClick = this.handleClick;
 
-    } else if (this.props.formVisibleOnPage === "home-page") {
-      currentlyVisibleState =
-      <Home/>
-      buttonText = "See All Flash Cards"
-      buttonClick = this.handleClick;
+    // } else if (this.props.formVisibleOnPage) {
+    //   currentlyVisibleState =
+    //   <Home/>
+    //   buttonText = "See All Flash Cards"
+    //   buttonClick = this.handleClick;
     }
-    else if (this.props.formVisibleOnPage === "see-form") {
+    else if (this.props.formVisibleOnPage === true) {
       currentlyVisibleState = <NewCardForm onNewCardCreation={this.handleAddingNewCardToList} />;
       buttonText = "Return to home page";
       buttonClick = this.handleClick;
@@ -151,8 +131,7 @@ class HomePage extends React.Component {
     } 
     else 
     {
-      currentlyVisibleState = <CardList />;
-      
+      currentlyVisibleState = <CardList />;   
       buttonText = "Add Post";
       buttonClick = this.handleClickAddCard;
       button2 =  "Return to list";

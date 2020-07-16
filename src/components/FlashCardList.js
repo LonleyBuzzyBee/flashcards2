@@ -12,6 +12,7 @@ function CardList(props) {
   ]);
 
   const cards = useSelector(state => state.firestore.ordered.cards);
+  console.log(cards);
   
   if (isLoaded(cards)) {
     console.log(cards);
