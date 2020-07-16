@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useFirestore } from 'react-redux-firebase'
+import { useFirestore} from 'react-redux-firebase'
 import ReusableForm from './ReusableForm';
+import * as a from '../actions';
+import {connect} from 'react-redux';
 
 function NewCardForm(props) {
   const firestore = useFirestore();
   function addCardToFirestore(event){
     event.preventDefault();
-    props.onNewCardCreation();
+    const { dispatch } = props; 
+    dispatch(a.toggleForm());
     return firestore.collection('cards').add(
       {
         title: event.target.title.value,
@@ -26,7 +29,13 @@ function NewCardForm(props) {
 }
 
 NewCardForm.propTypes = {
-  onNewCardCreation: PropTypes.func
+  formVisibleOnPage: PropTypes.bool
 }
 
-export default NewCardForm;
+const mapStateToProps = state => {
+  return {
+    formVisibleOnPage : state.formVisibleOnPage
+  } 
+}
+
+export default connect()(NewCardForm);

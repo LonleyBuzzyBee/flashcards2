@@ -13,7 +13,8 @@ function EditFlashCard(props){
   
   function handleEditCardFormSubmission(event) {
     event.preventDefault();
-    props.onEditCard();
+    // props.onEditCard(); replaced with a dispatch that sets editing to false
+    dispatch(a.editCard());
     const propertiesToUpdate = {
       title: event.target.title.value,
       category: event.target.category.value,
@@ -32,13 +33,14 @@ function EditFlashCard(props){
 }
 
 EditFlashCard.propTypes = {
-  onEditCard: PropTypes.func,
-  selectedCard: PropTypes.string
+  selectedCard: PropTypes.string,
+  editing: PropTypes.bool
 };
 
 const mapStateToProps = state => {
   return {
-    selectedCard: state.selectedCard
+    selectedCard: state.selectedCard,
+    editing: state.editing
   }
 }; 
   

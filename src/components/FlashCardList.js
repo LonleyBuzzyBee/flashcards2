@@ -20,7 +20,6 @@ function CardList(props) {
       <React.Fragment>
         {cards.map((card) => {
           return <Card
-            whenCardClicked={props.onCardSelection}
             title={card.title}
             category={card.category}
             content={card.content}
@@ -39,7 +38,6 @@ function CardList(props) {
 }
 
 CardList.propTypes = {
-  onCardSelection: PropTypes.func
 }
 
 export default CardList;

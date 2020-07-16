@@ -20,7 +20,6 @@ Card.propTypes = {
   category: PropTypes.string,
   content: PropTypes.string,
   selectedCard: PropTypes.string
-
 };
 
 const mapStateToProps = state => {

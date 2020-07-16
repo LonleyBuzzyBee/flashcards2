@@ -23,10 +23,11 @@ function CardDetail(props){
 
   const card = useSelector(state => state.firestore.ordered.cards)[0];
   
-  const { onEditCard } = props;
+  function onEditCard() {
+    dispatch(a.editCard());//edit-reducer set editing  
+  }
   
   if (isLoaded(card)) {
-    
   return (
     <React.Fragment>
         <h3>{card.title} - {card.category}</h3>
@@ -45,12 +46,14 @@ function CardDetail(props){
 }
 
 CardDetail.propTypes = {
-  selectedCard: PropTypes.string
+  selectedCard: PropTypes.string,
+  editing:PropTypes.bool
 };
 
 const mapStateToProps = state => {
   return {
-    selectedCard: state.selectedCard
+    selectedCard: state.selectedCard,
+    editing: state.editing
   }
 };
 
